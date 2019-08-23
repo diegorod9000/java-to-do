@@ -1,59 +1,77 @@
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 class ToDo
 {
     private JFrame frame;
-    //private JPanel buttons;
     private JPanel checkPanel;
     private ArrayList <JCheckBox> boxes;
     private ArrayList <JButton> deletes;
-    private ItemListener checker;
+    private JButton addButton;
+    private JTextField newCheck;
+    private ActionListener checker;
     public ToDo()
     {
         // Create the Window
+        checker=new ActionListener(){
+        
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                Object src= e.getSource();
+        
+                if(src==addButton)
+                    if (!newCheck.getText().equals(""))
+                        addBox(newCheck.getText());
+            }
+        };
         frame=new JFrame("ToDo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setBounds(0,0,50,50);
         frame.setVisible(true);
-        checkPanel=new JPanel(new GridLayout(0, 1));
+        checkPanel=new JPanel(new GridLayout(0, 2));
         boxes=new ArrayList<JCheckBox>();
         deletes=new ArrayList<JButton>();
-        checker=new ItemListener()
-        {
-            @Override
-            public void itemStateChanged(ItemEvent e) 
-            {
-            }
-        };
+        
+        addButton=new JButton("add");
+        newCheck=new JTextField();
+        addButton.addActionListener(checker);
+        addButton.setLocation(100, 0);
+        newCheck.setLocation(0, 0);
+        newCheck.setVisible(true);
+        checkPanel.add(newCheck);
+        checkPanel.add(addButton);
+        frame.add(checkPanel, BorderLayout.LINE_START);
+        frame.pack();
     }
 
-    public void trash(JCheckBox bruh)
+    private void addDeleteButton(JCheckBox checkbox)
     {
         JButton deleter=new JButton("delete");
-        deleter.setLocation(bruh.getX()+500, bruh.getY());
+        deleter.setLocation(checkbox.getX()+500, checkbox.getY());
         deleter.setSize(1,1);
         checkPanel.add(deleter);
-        //frame.remove(buttons);
-        //frame.add(buttons, BorderLayout.LINE_END);
         deletes.add(deleter);
     }
 
-    public void addBox(String input)
+    private void addBox(String input)
     {
         int x =boxes.size();
         boxes.add(new JCheckBox(input));
         boxes.get(x).setActionCommand(input);
-        boxes.get(x).addItemListener(checker);
+        boxes.get(x).addActionListener(checker);
         checkPanel.add(boxes.get(x));
-        trash(boxes.get(x));
+        addDeleteButton(boxes.get(x));
         frame.remove(checkPanel);
         frame.add(checkPanel, BorderLayout.LINE_START);
         frame.pack();
@@ -61,10 +79,5 @@ class ToDo
     public static void main(String[] args)
     {
         ToDo x=new ToDo();
-        x.addBox("YEET");
-        x.addBox("dsfasd");
-        x.addBox("YEdsfsd");
-        x.addBox("dsfasdfsd");
-        x.addBox("tjrryjudtf");
     }
 }
