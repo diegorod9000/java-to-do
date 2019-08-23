@@ -33,21 +33,12 @@ class ToDo
                 if(src==addButton)
                     if (!newCheck.getText().equals(""))
                         addBox(newCheck.getText());
-            }
-        };
-        frame=new JFrame("ToDo");
-        checker=new ActionListener(){
-        
-            @Override
-            public void actionPerformed(ActionEvent e) 
-            {
-                Object src=e.getSource();
                 for (int x=0; x<deletes.size();x++)
                     if(deletes.get(x)==src)
                         delete(x);
-
             }
         };
+        frame=new JFrame("ToDo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setBounds(0,0,50,50);
         frame.setVisible(true);
