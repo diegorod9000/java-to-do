@@ -33,6 +33,9 @@ class ToDo
                 if(src==addButton)
                     if (!newCheck.getText().equals(""))
                         addBox(newCheck.getText());
+                for (int x=0; x<deletes.size();x++)
+                    if(deletes.get(x)==src)
+                        delete(x);
             }
         };
         frame=new JFrame("ToDo");
@@ -55,11 +58,23 @@ class ToDo
         frame.pack();
     }
 
+    public void delete (int x)
+    {
+        checkPanel.remove(deletes.get(x));
+        checkPanel.remove(boxes.get(x));
+        boxes.remove(x);
+        deletes.remove(x);
+        frame.remove(checkPanel);
+        frame.add(checkPanel, BorderLayout.LINE_START);
+        frame.pack();
+    }
+
     private void addDeleteButton(JCheckBox checkbox)
     {
         JButton deleter=new JButton("delete");
         deleter.setLocation(checkbox.getX()+500, checkbox.getY());
         deleter.setSize(1,1);
+        deleter.addActionListener(checker);
         checkPanel.add(deleter);
         deletes.add(deleter);
     }
@@ -69,7 +84,6 @@ class ToDo
         int x =boxes.size();
         boxes.add(new JCheckBox(input));
         boxes.get(x).setActionCommand(input);
-        boxes.get(x).addActionListener(checker);
         checkPanel.add(boxes.get(x));
         addDeleteButton(boxes.get(x));
         frame.remove(checkPanel);
