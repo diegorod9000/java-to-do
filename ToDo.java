@@ -1,9 +1,9 @@
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
@@ -14,7 +14,6 @@ import javax.swing.JTextField;
 class ToDo
 {
     private JFrame frame;
-    //private JPanel buttons;
     private JPanel checkPanel;
     private ArrayList <JCheckBox> boxes;
     private ArrayList <JButton> deletes;
@@ -43,38 +42,23 @@ class ToDo
         checkPanel=new JPanel(new GridLayout(0, 2));
         boxes=new ArrayList<JCheckBox>();
         deletes=new ArrayList<JButton>();
+        
         addButton=new JButton("add");
         newCheck=new JTextField();
-        newCheck.setLocation(0, 0);
-        addButton.setLocation(100, 0);
         addButton.addActionListener(checker);
+        addButton.setLocation(100, 0);
+        newCheck.setLocation(0, 0);
         newCheck.setVisible(true);
         checkPanel.add(newCheck);
         checkPanel.add(addButton);
         frame.add(checkPanel, BorderLayout.LINE_START);
         frame.pack();
     }
-        
-    //     // for (int x=0;x<deletes.size();x++)
-    //     //     if (src==deletes.get(x))
-    //     //     {
-    //     //         delete(x);
-    //     //     }
-    // }
 
-    // public void delete (int x)
-    // {
-    //     frame.remove(boxes.get(x));
-    //     frame.remove(deletes.get(x));
-    //     deletes.remove(x);
-    //     boxes.remove(x);
-    //     frame.pack();
-    // }
-
-    private void trash(JCheckBox bruh)
+    private void addDeleteButton(JCheckBox checkbox)
     {
         JButton deleter=new JButton("delete");
-        deleter.setLocation(bruh.getX()+500, bruh.getY());
+        deleter.setLocation(checkbox.getX()+500, checkbox.getY());
         deleter.setSize(1,1);
         checkPanel.add(deleter);
         deletes.add(deleter);
@@ -87,7 +71,7 @@ class ToDo
         boxes.get(x).setActionCommand(input);
         boxes.get(x).addActionListener(checker);
         checkPanel.add(boxes.get(x));
-        trash(boxes.get(x));
+        addDeleteButton(boxes.get(x));
         frame.remove(checkPanel);
         frame.add(checkPanel, BorderLayout.LINE_START);
         frame.pack();
